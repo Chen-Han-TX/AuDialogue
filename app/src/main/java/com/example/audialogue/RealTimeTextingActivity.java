@@ -7,20 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class RealTimeTextingActivity extends AppCompatActivity {
 
-    Button realTimeTextingBut;
+    Button backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        realTimeTextingBut = findViewById(R.id.realTimeTexting);
-        realTimeTextingBut.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_real_time_texting);
+        backButton = findViewById(R.id.backBut);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), RealTimeTextingActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
-
     }
 }
