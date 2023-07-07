@@ -4,17 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:overScrollMode="always"
     tools:context=".RealTimeTextingActivity">
 
-    <Button
-        android:id="@+id/backBut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
+    <TextView
+        android:id="@+id/center_text"
+        android:layout_width="361dp"
+        android:layout_height="315dp"
+        android:autoText="true"
+        android:background="#FED9D9"
+        android:fontFamily="@font/dekko"
+        android:layoutDirection="rtl"
+        android:maxLength="300"
+        android:orientation="vertical"
+        android:overScrollMode="ifContentScrolls"
+        android:padding="20dp"
+        android:scrollbarSize="2dp"
+        android:text="Click here to flippp me!"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:autoSizeMaxTextSize="30dp"
+        app:autoSizeMinTextSize="18dp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
