@@ -24,11 +24,12 @@ import org.json.JSONObject;
 public class RealTimeTextingActivity extends AppCompatActivity {
 
     private TextView centerText;
+    private long TIMESTAMP = System.currentTimeMillis() / 1000;
+
     private boolean isFlipped = false;
     private EditText editText;
     private ImageButton backButton;
     private ImageButton historyButton;
-    private boolean isInputted = false;
 
     /*
     The climax of this course is its final project. The final project is your opportunity to take your newfound savvy with programming out for a spin and develop your very own piece of software. So long as your project draws upon this course’s lessons, the nature of your project is entirely up to you.
@@ -48,10 +49,6 @@ public class RealTimeTextingActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
-        // Generate the JSON
-        long timestamp = System.currentTimeMillis() / 1000;
-
-
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +66,7 @@ public class RealTimeTextingActivity extends AppCompatActivity {
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent launchIntent = new Intent(RealTimeTextingActivity.this, HistoryActivity.class);
+                Intent launchIntent = new Intent(RealTimeTextingActivity.this, ConvoHistoryActivity.class);
                 if (launchIntent != null)
                 {
                     // null pointer check in case package name was not found
@@ -141,21 +138,7 @@ public class RealTimeTextingActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    // Check if already have inputted
-                    if (!isInputted)
-                    {
-                        JSONObject data = new JSONObject();
-                        try {
-                            data.put(String.valueOf(timestamp), new JSONArray());
-                            // Write the initial JSON object into a file
-                            FileHelper.writeJsonFile(RealTimeTextingActivity.this,  String.valueOf(timestamp), data);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        isInputted = true;
-                    }
-                    addData(timestamp, newData);
+                    FileHelper.addMessage(RealTimeTextingActivity.this, String.valueOf(TIMESTAMP), newData);
 
                     handled = true;
                 }
@@ -174,21 +157,5 @@ public class RealTimeTextingActivity extends AppCompatActivity {
         }
         isFlipped = !isFlipped;
     }
-
-    public void addData(long timestamp, JSONObject newData) {
-        JSONObject data = FileHelper.readJsonFile(this);
-        if (data != null) {
-            try {
-                JSONArray arr = data.getJSONArray(String.valueOf(timestamp));
-                arr.put(newData);
-                FileHelper.writeJsonFile(this,  String.valueOf(timestamp), data);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
 }
 

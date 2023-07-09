@@ -2,6 +2,7 @@ package com.example.audialogue;
 
 import android.content.Context;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.FileInputStream;
@@ -37,7 +38,7 @@ public class FileHelper {
         }
     }
 
-    public static void writeJsonFile(Context context, String key, JSONObject newData) {
+    public static void addMessage(Context context, String key, JSONObject newData) {
         try {
             // Read the existing file
             JSONObject existingData = readJsonFile(context);
@@ -47,10 +48,21 @@ public class FileHelper {
                 existingData = new JSONObject();
             }
 
-            // Add the new data
-            if (!existingData.has(key)) {
-                existingData.put(key, newData);
+            JSONArray dataForGivenKey;
+            // Check if data already exists for the given key
+            if (existingData.has(key)) {
+                // If yes, get the existing JSONArray
+                dataForGivenKey = existingData.getJSONArray(key);
+            } else {
+                // If not, create a new JSONArray
+                dataForGivenKey = new JSONArray();
             }
+
+            // Add the new data to the JSONArray
+            dataForGivenKey.put(newData);
+
+            // Put the JSONArray back into the JSONObject
+            existingData.put(key, dataForGivenKey);
 
             // Write the modified JSON back to the file
             FileOutputStream fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
@@ -61,4 +73,34 @@ public class FileHelper {
             e.printStackTrace();
         }
     }
+
+
+    // Write the entire JSON file - replacing the old one
+    public static void writeJsonFile(Context context, JSONObject jsonObject) {
+        try {
+            FileOutputStream fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            osw.write(jsonObject.toString());
+            osw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+
+
+/*
+    public void deleteSpecificData(Context context, String keyToDelete) {
+        // Read the file into a JSONObject
+        JSONObject jsonFile = FileHelper.readJsonFile(context);
+
+        // Remove the specific data
+        jsonFile.remove(keyToDelete);
+
+        // Write the updated JSONObject back to the file
+        FileHelper.writeJsonFile(context, jsonFile);
+
+    }
+
+ */

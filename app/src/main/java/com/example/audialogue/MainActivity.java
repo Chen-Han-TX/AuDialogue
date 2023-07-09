@@ -7,10 +7,12 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     Button realTimeTextingBut;
+    Button signLangIntBut;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), RealTimeTextingActivity.class));
+            }
+        });
+
+        signLangIntBut = findViewById(R.id.signLangInterpretation);
+        signLangIntBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Oops.. still making it to work! OvO",
+                        Toast.LENGTH_LONG).show();
             }
         });
 
