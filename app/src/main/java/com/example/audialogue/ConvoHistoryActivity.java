@@ -3,9 +3,12 @@ package com.example.audialogue;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,32 +30,39 @@ public class ConvoHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convo_history);
+
+        // Back button
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent newIntent = new Intent(ConvoHistoryActivity.this, MainActivity.class);
+                if (newIntent != null){
+                    startActivity(newIntent);
+                    finish();
+                }
+            }
+        });
+
+
         LinearLayout conversationLayout = findViewById(R.id.conversationLayout);
 
         Map<String, JSONArray> sortedData = loadAndSortData();
+
+        LayoutInflater inflater = LayoutInflater.from(this);
 
         for (Map.Entry<String, JSONArray> entry : sortedData.entrySet()) {
             String timestamp = entry.getKey();
             JSONArray messages = entry.getValue();
 
-            // Create CardView
-            CardView cardView = new CardView(this);
-            // Set up CardView properties here...
+            // Inflate CardView from XML layout
+            View cardViewLayout = inflater.inflate(R.layout.card_view_layout, null, false);
 
-            // Create LinearLayout for CardView content
-            LinearLayout cardContentLayout = new LinearLayout(this);
-            cardContentLayout.setOrientation(LinearLayout.VERTICAL);
+            CardView cardView = cardViewLayout.findViewById(R.id.cardView);
+            TextView titleTextView = cardViewLayout.findViewById(R.id.titleTextView);
+            LinearLayout messagesLayout = cardViewLayout.findViewById(R.id.messagesLayout);
 
-            // Create title TextView
-            TextView titleTextView = new TextView(this);
             titleTextView.setText(convertTimestampToDate(timestamp));
-            titleTextView.setTextSize(24); // Set the text size larger
-
-            // Create LinearLayout for messages
-            final LinearLayout messagesLayout = new LinearLayout(this);
-            messagesLayout.setOrientation(LinearLayout.VERTICAL); // Align the messages vertically
-            messagesLayout.setVisibility(View.GONE);
-
             titleTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -65,39 +75,33 @@ public class ConvoHistoryActivity extends AppCompatActivity {
                 }
             });
 
-            // Add titleTextView to cardContentLayout
-            cardContentLayout.addView(titleTextView);
-
             // Create TextViews for messages
             for (int i = 0; i < messages.length(); i++) {
                 try {
                     JSONObject message = (JSONObject) messages.get(i);
+                    // Inflate the custom message layout
+                    View messageLayout = inflater.inflate(R.layout.message_layout, null, false);
+                    TextView messageTextView = messageLayout.findViewById(R.id.messageTextView);
+
                     if (message.has("Portrait")) {
-                        TextView messageTextView = new TextView(this);
                         messageTextView.setText(message.getString("Portrait"));
-                        messageTextView.setBackgroundColor(Color.BLUE);
-                        messagesLayout.addView(messageTextView);
+                        messageTextView.setBackgroundColor(Color.GRAY);
                     } else if (message.has("Reversed")) {
-                        TextView messageTextView = new TextView(this);
                         messageTextView.setText(message.getString("Reversed"));
-                        messageTextView.setBackgroundColor(Color.GREEN);
-                        messagesLayout.addView(messageTextView);
+                        messageTextView.setBackgroundColor(Color.MAGENTA);
                     }
+                    // Add the custom message layout to the messagesLayout
+                    messagesLayout.addView(messageLayout);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
-            // Add messagesLayout to cardContentLayout
-            cardContentLayout.addView(messagesLayout);
-
-            // Add cardContentLayout to CardView
-            cardView.addView(cardContentLayout);
-
             // Add CardView to conversationLayout
             conversationLayout.addView(cardView);
         }
     }
+
 
 
     private String convertTimestampToDate(String timestamp) {
