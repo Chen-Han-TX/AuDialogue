@@ -66,7 +66,7 @@ public class RealTimeTextingActivity extends AppCompatActivity {
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent launchIntent = new Intent(RealTimeTextingActivity.this, HistoryActivity.class);
+                Intent launchIntent = new Intent(RealTimeTextingActivity.this, ConvoHistoryActivity.class);
                 if (launchIntent != null)
                 {
                     // null pointer check in case package name was not found
