@@ -87,11 +87,7 @@ public class FileHelper {
         }
     }
 
-}
-
-
-/*
-    public void deleteSpecificData(Context context, String keyToDelete) {
+    public static void deleteSpecificData(Context context, String keyToDelete) {
         // Read the file into a JSONObject
         JSONObject jsonFile = FileHelper.readJsonFile(context);
 
@@ -100,7 +96,10 @@ public class FileHelper {
 
         // Write the updated JSONObject back to the file
         FileHelper.writeJsonFile(context, jsonFile);
-
     }
 
- */
+}
+
+
+
+

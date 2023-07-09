@@ -1,13 +1,22 @@
 package com.example.audialogue;
 
+import static android.app.PendingIntent.getActivity;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,7 +45,7 @@ public class ConvoHistoryActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newIntent = new Intent(ConvoHistoryActivity.this, MainActivity.class);
+                Intent newIntent = new Intent(ConvoHistoryActivity.this, RealTimeTextingActivity.class);
                 if (newIntent != null){
                     startActivity(newIntent);
                     finish();
@@ -50,6 +59,23 @@ public class ConvoHistoryActivity extends AppCompatActivity {
         Map<String, JSONArray> sortedData = loadAndSortData();
 
         LayoutInflater inflater = LayoutInflater.from(this);
+
+        // If no entry yet
+        if (sortedData.isEmpty())
+        {
+            //Add textview shows: No conversation history yet
+            TextView noDataTextView = new TextView(this);
+            noDataTextView.setText("No conversation history yet");
+            noDataTextView.setTextSize(24);  // or another size
+            noDataTextView.setTextColor(Color.BLACK);  // or another color
+            noDataTextView.setGravity(Gravity.CENTER);  // centered text
+
+            Typeface typeface = ResourcesCompat.getFont(this, R.font.dekko);
+            noDataTextView.setTypeface(typeface);
+
+            // add the TextView to your conversationLayout
+            conversationLayout.addView(noDataTextView);
+        }
 
         for (Map.Entry<String, JSONArray> entry : sortedData.entrySet()) {
             String timestamp = entry.getKey();
@@ -97,8 +123,34 @@ public class ConvoHistoryActivity extends AppCompatActivity {
                 }
             }
 
+            // Inflate the delete button from XML
+            Button deleteButton = (Button) inflater.inflate(R.layout.delete_button, null);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Create an AlertDialog
+                    new AlertDialog.Builder(ConvoHistoryActivity.this)
+                            .setTitle("Delete Entry")
+                            .setMessage("Are you sure you want to delete this entry?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    FileHelper.deleteSpecificData(ConvoHistoryActivity.this, timestamp);
+                                    recreate();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+            });
+
+
+            // Add the delete button to the messagesLayout
+            messagesLayout.addView(deleteButton);
+
             // Add CardView to conversationLayout
             conversationLayout.addView(cardView);
+
         }
     }
 
