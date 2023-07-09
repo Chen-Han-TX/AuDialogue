@@ -16,9 +16,11 @@
         <activity
             android:name=".RealTimeTextingActivity"
             android:exported="false">
+            <!-- Other attributes and elements for your activity -->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
 
         </activity>
         <activity
