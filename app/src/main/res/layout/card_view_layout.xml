@@ -3,8 +3,7 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:background="@drawable/cardview_border">
+    android:layout_margin="8dp">
 
     <LinearLayout
         android:id="@+id/cardContentLayout"
