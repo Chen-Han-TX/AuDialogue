@@ -30,14 +30,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        signLangIntBut = findViewById(R.id.signLangInterpretation);
-        signLangIntBut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Oops.. still making it to work! OvO",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-
     }
 }

@@ -1,6 +1,7 @@
 package com.example.audialogue;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
@@ -66,13 +68,24 @@ public class RealTimeTextingActivity extends AppCompatActivity {
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent launchIntent = new Intent(RealTimeTextingActivity.this, ConvoHistoryActivity.class);
-                if (launchIntent != null)
-                {
-                    // null pointer check in case package name was not found
-                    startActivity(launchIntent);
-                    finish();
-                }
+                // Create an AlertDialog
+                new AlertDialog.Builder(RealTimeTextingActivity.this)
+                        .setTitle("Navigating to Chat History")
+                        .setMessage("Are you sure to exit the current conversation? \nYour chat history will be saved automatically.")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent launchIntent = new Intent(RealTimeTextingActivity.this, ConvoHistoryActivity.class);
+                                if (launchIntent != null)
+                                {
+                                    // null pointer check in case package name was not found
+                                    startActivity(launchIntent);
+                                    finish();
+                                }
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 
