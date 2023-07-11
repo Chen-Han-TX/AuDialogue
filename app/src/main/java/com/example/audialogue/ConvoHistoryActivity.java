@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
@@ -111,10 +112,10 @@ public class ConvoHistoryActivity extends AppCompatActivity {
 
                     if (message.has("Portrait")) {
                         messageTextView.setText(message.getString("Portrait"));
-                        messageTextView.setBackgroundColor(Color.MAGENTA);
+                        messageTextView.setBackgroundColor(Color.GRAY);
                     } else if (message.has("Reversed")) {
                         messageTextView.setText(message.getString("Reversed"));
-                        messageTextView.setBackgroundColor(Color.GRAY);
+                        messageTextView.setBackgroundColor(Color.MAGENTA);
                     }
                     // Add the custom message layout to the messagesLayout
                     messagesLayout.addView(messageLayout);
@@ -159,11 +160,12 @@ public class ConvoHistoryActivity extends AppCompatActivity {
     private String convertTimestampToDate(String timestamp) {
         long unixSeconds = Long.parseLong(timestamp);
         Date date = new Date(unixSeconds*1000L);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy - hh:mma", Locale.ENGLISH);
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
         String formattedDate = sdf.format(date);
         return formattedDate;
     }
+
 
 
     private Map<String, JSONArray> loadAndSortData() {

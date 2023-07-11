@@ -1,20 +1,19 @@
 package com.example.audialogue;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
-
 import androidx.fragment.app.DialogFragment;
-import com.example.audialogue.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -45,10 +44,10 @@ public class MessageListDialogFragment extends DialogFragment {
 
                 if (message.has("Portrait")) {
                     messageTextView.setText(message.getString("Portrait"));
-                    messageTextView.setBackgroundColor(Color.MAGENTA);
+                    messageTextView.setBackgroundColor(Color.GRAY);
                 } else if (message.has("Reversed")) {
                     messageTextView.setText(message.getString("Reversed"));
-                    messageTextView.setBackgroundColor(Color.GRAY);
+                    messageTextView.setBackgroundColor(Color.MAGENTA);
                 }
 
                 // Add the custom message layout to the messagesLayout
@@ -63,19 +62,15 @@ public class MessageListDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        Window window = getDialog().getWindow();
-        if (window != null) {
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-            int dialogWindowWidth = (int) (displayMetrics.widthPixels * 0.85); // 85% of screen width
-            int dialogWindowHeight = WindowManager.LayoutParams.WRAP_CONTENT;
-
-            window.setLayout(dialogWindowWidth, dialogWindowHeight);
+    public void onStart() {
+        super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+            int width = (int) (metrics.widthPixels * 0.85);
+            int height = (int) (metrics.heightPixels * 0.5);  //50% of screen height
+            dialog.getWindow().setLayout(width, height);
+            dialog.getWindow().setGravity(Gravity.CENTER);
         }
     }
-
-
 }

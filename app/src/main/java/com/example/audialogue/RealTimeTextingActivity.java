@@ -28,6 +28,7 @@ public class RealTimeTextingActivity extends AppCompatActivity {
     private long TIMESTAMP = System.currentTimeMillis() / 1000;
 
     private boolean isFlipped = false;
+    private boolean hasMessage = false;
     private boolean isInputted = false;
     private String previousMessage = "";
     private ArrayList<JSONObject> messages = new ArrayList<>();
@@ -55,7 +56,7 @@ public class RealTimeTextingActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // Create an AlertDialog
-                if (isInputted)
+                if (hasMessage)
                 {
                     new AlertDialog.Builder(RealTimeTextingActivity.this)
                             .setTitle("Navigating to Chat History")
@@ -108,6 +109,7 @@ public class RealTimeTextingActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Update centerText as the text in editText changes
+                hasMessage = true;
                 isInputted = true;
                 centerText.setText(s.toString());
             }
@@ -150,7 +152,7 @@ public class RealTimeTextingActivity extends AppCompatActivity {
 
         String text = String.valueOf(centerText.getText());
         // Made sure it keep track of when the user typed something
-        if (isInputted)
+        if (hasMessage && isInputted)
         {
             editText.setText("");
             centerText.setText(text);
@@ -184,6 +186,7 @@ public class RealTimeTextingActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
         }
         isFlipped = !isFlipped;
+        isInputted = false;
     }
 }
 
