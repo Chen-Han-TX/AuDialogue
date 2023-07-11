@@ -48,6 +48,7 @@
         android:id="@+id/centerText"
         android:layout_width="350dp"
         android:layout_height="400dp"
+        android:layout_marginBottom="100dp"
         android:autoText="true"
         android:background="#FFFBFB"
         android:fontFamily="@font/dekko"
@@ -68,9 +69,10 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/currentChatHistory"
+        app:layout_constraintVertical_bias="0.263" />
 
     <EditText
         android:id="@+id/editText"
@@ -95,7 +97,7 @@
         android:id="@+id/backButton"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="48dp"
         android:background="@android:color/transparent"
         android:rotationY="180"
         android:scaleX="1.5"
@@ -109,12 +111,11 @@
         android:id="@+id/currentChatHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="Current Chat"
-        app:layout_constraintBottom_toTopOf="@+id/centerText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButton"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

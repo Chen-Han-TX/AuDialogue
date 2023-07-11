@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.audialogue'
+    namespace 'com.chancechenhan.audialogue'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.audialogue"
+        applicationId "com.chancechenhan.audialogue"
         minSdk 21
         targetSdk 32
         versionCode 1
@@ -19,7 +19,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
         }
     }
     compileOptions {
