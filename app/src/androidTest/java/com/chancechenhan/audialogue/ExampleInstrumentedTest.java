@@ -1,4 +1,4 @@
-package com.example.audialogue;
+package com.chancechenhan.audialogue;
 
 import android.content.Context;
 

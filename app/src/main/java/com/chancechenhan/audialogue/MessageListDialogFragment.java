@@ -1,4 +1,4 @@
-package com.example.audialogue;
+package com.chancechenhan.audialogue;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -8,10 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 import org.json.JSONException;

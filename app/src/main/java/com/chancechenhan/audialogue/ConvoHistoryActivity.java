@@ -1,4 +1,4 @@
-package com.example.audialogue;
+package com.chancechenhan.audialogue;
 
 import static android.app.PendingIntent.getActivity;
 
@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
