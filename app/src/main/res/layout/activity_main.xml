@@ -6,16 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageButton
+        android:id="@+id/historyButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_recent_history" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="281dp"
         android:layout_height="69dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/righteous"
         android:text="AuDialogue"
         android:textAlignment="center"
         android:textColorHighlight="#070707"
-        android:textSize="45sp"
+        android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -24,7 +37,7 @@
         android:id="@+id/textView"
         android:layout_width="258dp"
         android:layout_height="127dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="56dp"
         android:autoText="false"
         android:fontFamily="@font/dekko"
         android:text="Providing seamless communication between the Deaf and Hearing community"
@@ -38,38 +51,28 @@
 
     <Button
         android:id="@+id/realTimeTexting"
-        android:layout_width="164dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="36dp"
-        android:text="Real-time Texting"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/signLangInterpretation"
-        android:layout_width="168dp"
-        android:layout_height="79dp"
-        android:layout_marginBottom="16dp"
-        android:text="Sign Lang Interpretation"
+        android:layout_width="177dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="68dp"
+        android:fontFamily="@font/righteous"
+        android:text="Start"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/realTimeTexting"
-        app:layout_constraintVertical_bias="0.328" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="95dp"
-        android:layout_marginTop="64dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="84dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/audialogue" />
+        app:srcCompat="@drawable/ic_baseline_quickreply_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

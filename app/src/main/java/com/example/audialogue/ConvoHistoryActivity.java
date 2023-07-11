@@ -45,7 +45,7 @@ public class ConvoHistoryActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newIntent = new Intent(ConvoHistoryActivity.this, RealTimeTextingActivity.class);
+                Intent newIntent = new Intent(ConvoHistoryActivity.this, MainActivity.class);
                 if (newIntent != null){
                     startActivity(newIntent);
                     finish();
@@ -111,10 +111,10 @@ public class ConvoHistoryActivity extends AppCompatActivity {
 
                     if (message.has("Portrait")) {
                         messageTextView.setText(message.getString("Portrait"));
-                        messageTextView.setBackgroundColor(Color.GRAY);
+                        messageTextView.setBackgroundColor(Color.MAGENTA);
                     } else if (message.has("Reversed")) {
                         messageTextView.setText(message.getString("Reversed"));
-                        messageTextView.setBackgroundColor(Color.MAGENTA);
+                        messageTextView.setBackgroundColor(Color.GRAY);
                     }
                     // Add the custom message layout to the messagesLayout
                     messagesLayout.addView(messageLayout);

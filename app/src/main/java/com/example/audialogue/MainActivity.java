@@ -1,18 +1,23 @@
 package com.example.audialogue;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button realTimeTextingBut;
-    Button signLangIntBut;
+    private Button realTimeTextingBut;
+    private ImageButton historyButton;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,14 +35,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        signLangIntBut = findViewById(R.id.signLangInterpretation);
-        signLangIntBut.setOnClickListener(new View.OnClickListener() {
+
+        historyButton = findViewById(R.id.historyButton);
+        historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Oops.. still making it to work! OvO",
-                        Toast.LENGTH_LONG).show();
+
+                Intent launchIntent = new Intent(MainActivity.this, ConvoHistoryActivity.class);
+                if (launchIntent != null)
+                {
+                    // null pointer check in case package name was not found
+                    startActivity(launchIntent);
+                    finish();
+                }
             }
         });
 
     }
+
+
 }
+
+/*
+
+
+ */
