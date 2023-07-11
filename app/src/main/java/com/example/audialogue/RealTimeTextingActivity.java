@@ -11,17 +11,16 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 
 public class RealTimeTextingActivity extends AppCompatActivity {
 
@@ -29,13 +28,12 @@ public class RealTimeTextingActivity extends AppCompatActivity {
     private long TIMESTAMP = System.currentTimeMillis() / 1000;
 
     private boolean isFlipped = false;
+    private boolean isInputted = false;
+    private String previousMessage = "";
+    private ArrayList<JSONObject> messages = new ArrayList<>();
     private EditText editText;
     private ImageButton backButton;
-    private ImageButton historyButton;
-
-    /*
-    The climax of this course is its final project. The final project is your opportunity to take your newfound savvy with programming out for a spin and develop your very own piece of software. So long as your project draws upon this course’s lessons, the nature of your project is entirely up to you.
-     */
+    private Button currentChatButton;
 
 
     @Override
@@ -55,37 +53,37 @@ public class RealTimeTextingActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent launchIntent = new Intent(RealTimeTextingActivity.this, MainActivity.class);
-                if (launchIntent != null) {
-                    // null pointer check in case package name was not found
-                    startActivity(launchIntent);
-                    finish();
-                }
-            }
-        });
 
-        historyButton = findViewById(R.id.historyButton);
-        historyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 // Create an AlertDialog
-                new AlertDialog.Builder(RealTimeTextingActivity.this)
-                        .setTitle("Navigating to Chat History")
-                        .setMessage("Are you sure to exit the current conversation? \nYour chat history will be saved automatically.")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent launchIntent = new Intent(RealTimeTextingActivity.this, ConvoHistoryActivity.class);
-                                if (launchIntent != null)
-                                {
-                                    // null pointer check in case package name was not found
-                                    startActivity(launchIntent);
-                                    finish();
+                if (isInputted)
+                {
+                    new AlertDialog.Builder(RealTimeTextingActivity.this)
+                            .setTitle("Navigating to Chat History")
+                            .setMessage("Are you sure to exit the current conversation? \nYour chat history will be saved automatically.")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    Intent launchIntent = new Intent(RealTimeTextingActivity.this, MainActivity.class);
+                                    if (launchIntent != null) {
+                                        // null pointer check in case package name was not found
+                                        startActivity(launchIntent);
+                                        finish();
+                                    }
+
                                 }
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                            })
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                } else {
+
+                    Intent launchIntent = new Intent(RealTimeTextingActivity.this, MainActivity.class);
+                    if (launchIntent != null) {
+                        // null pointer check in case package name was not found
+                        startActivity(launchIntent);
+                        finish();
+                    }
+                }
             }
         });
 
@@ -101,7 +99,6 @@ public class RealTimeTextingActivity extends AppCompatActivity {
 
         // editText at the bottom
         editText = findViewById(R.id.editText);
-
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,6 +108,7 @@ public class RealTimeTextingActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Update centerText as the text in editText changes
+                isInputted = true;
                 centerText.setText(s.toString());
             }
 
@@ -126,41 +124,58 @@ public class RealTimeTextingActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-
-                    // Save the text in history
-                    String text = String.valueOf(centerText.getText());
-
-                    editText.setText("");
-                    centerText.setText(text);
-
-                    // Hide keyboard
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                    }
                     toggleFlip();
-
-                    // Add new data to JSON
-                    JSONObject newData = new JSONObject();
-                    try {
-                        if (isFlipped) {
-                            newData.put("Reversed", text);
-                        } else {
-                            newData.put("Portrait", text);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    FileHelper.addMessage(RealTimeTextingActivity.this, String.valueOf(TIMESTAMP), newData);
-
                     handled = true;
                 }
                 return handled;
             }
         });
+
+
+        // Current chat history button
+        currentChatButton = findViewById(R.id.currentChatHistory);
+        currentChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MessageListDialogFragment.newInstance(messages).show(getSupportFragmentManager(), "messageList");
+            }
+        });
+
+
+
     }
 
     private void toggleFlip() {
+
+
+        String text = String.valueOf(centerText.getText());
+        // Made sure it keep track of when the user typed something
+        if (isInputted)
+        {
+            editText.setText("");
+            centerText.setText(text);
+
+            // Save the text in history and add new data to JSON
+            JSONObject newData = new JSONObject();
+            try {
+                if (isFlipped) {
+                    newData.put("Reversed", text);
+                } else {
+                    newData.put("Portrait", text);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            messages.add(newData);
+            FileHelper.addMessage(RealTimeTextingActivity.this, String.valueOf(TIMESTAMP), newData);
+
+            // Hide keyboard
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            }
+        }
+
         if (isFlipped) {
             // Restore to normal
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

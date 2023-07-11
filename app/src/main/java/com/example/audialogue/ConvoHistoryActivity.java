@@ -45,7 +45,7 @@ public class ConvoHistoryActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newIntent = new Intent(ConvoHistoryActivity.this, RealTimeTextingActivity.class);
+                Intent newIntent = new Intent(ConvoHistoryActivity.this, MainActivity.class);
                 if (newIntent != null){
                     startActivity(newIntent);
                     finish();

@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageButton
+        android:id="@+id/historyButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_recent_history" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="281dp"
